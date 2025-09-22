@@ -45,12 +45,15 @@ public class SecurityConfig {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
                 // ✅ Public APIs
-                .requestMatchers("/").permitAll()   // root path now accessible
+                .requestMatchers("/").permitAll()
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/api/sendMail").permitAll()
                 .requestMatchers("/api/products/**").permitAll()
                 .requestMatchers("/uploads/**").permitAll()
                 .requestMatchers("/api/admin/login").permitAll()
+
+                // ✅ Actuator health check (Option 2)
+                .requestMatchers("/actuator/health").permitAll()
 
                 // 🔒 Protected APIs
                 .requestMatchers("/api/users/**").authenticated()
