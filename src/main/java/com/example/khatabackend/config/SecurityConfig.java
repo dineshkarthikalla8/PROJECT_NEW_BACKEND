@@ -44,18 +44,19 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                // Public APIs
+                // ✅ Public APIs
+                .requestMatchers("/").permitAll()
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/api/sendMail").permitAll()
                 .requestMatchers("/api/products/**").permitAll()
                 .requestMatchers("/uploads/**").permitAll()
-                .requestMatchers("/api/admin/login").permitAll() // ✅ allow admin login without auth
+                .requestMatchers("/api/admin/login").permitAll()
 
-                // Protected APIs
+                // 🔒 Protected APIs
                 .requestMatchers("/api/users/**").authenticated()
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
 
-                // Everything else
+                // Everything else requires auth
                 .anyRequest().authenticated()
             );
 
