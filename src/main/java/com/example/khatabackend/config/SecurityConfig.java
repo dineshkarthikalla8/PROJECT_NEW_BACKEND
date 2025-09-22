@@ -35,23 +35,14 @@ public class SecurityConfig {
                 CorsConfiguration config = new CorsConfiguration();
                 config.setAllowedOrigins(Arrays.asList("http://localhost:3000")); // frontend URL
                 config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-                config.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
+                config.setAllowedHeaders(Arrays.asList("*"));
                 config.setAllowCredentials(true);
                 return config;
             }))
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/actuator/**").permitAll()
-                .requestMatchers("/").permitAll()
-                .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/api/sendMail").permitAll()
-                .requestMatchers("/api/products/**").permitAll()
-                .requestMatchers("/uploads/**").permitAll()
-                .requestMatchers("/api/admin/login").permitAll()
-                .requestMatchers("/api/users/**").permitAll()  // ✅ make users API public
-                .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()   // ✅ allow all requests
             );
 
         return http.build();
