@@ -45,7 +45,7 @@ public class SecurityConfig {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
                 // ✅ Public APIs
-                .requestMatchers("/").permitAll()
+                .requestMatchers("/").permitAll()   // root path now accessible
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/api/sendMail").permitAll()
                 .requestMatchers("/api/products/**").permitAll()
